@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'feed'
+    'feed',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,9 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.dirname(os.path.dirname(os.path.abspath(__file__)))],
+        'DIRS': [
+            os.path.join(BASE_DIR),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
