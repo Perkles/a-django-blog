@@ -7,6 +7,17 @@
     {% for post in posts %}
 
         <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
+
+        {% if post.author.username == user_logged %}
+            <a href="{{post.get_absolute_url_delete}}">Delete</a>
+        {% endif %}
+
+        {% if post.posted %}
+            <h3>published</h3>
+        {% else %}
+            <h3>unpublished</h3>
+        {% endif %}
+
         {% for tag in post.tags.all %}
            <p>{{tag.tag_name}}</p>
         {% endfor %}

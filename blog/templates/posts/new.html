@@ -3,23 +3,17 @@
 {% block title %}New blog post{% endblock %}
 
 {% block content %}
-<!--    <form method="POST"> {% csrf_token %}-->
-<!--        <input type="hidden" value="{author.username}">-->
-<!--        {{ form.as_p }}-->
-<!--        <input type="submit" value="save"/>-->
-<!--    </form>-->
-<form action="{% url 'post_new' author.username %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="user" value="{{author.id}}"/>
-    <input type="text" placeholder="Title"/>
-    <input type="text" placeholder="Post content"/>
 
-    {% for tag in tags %}
-        <input type="radio" name="tag" value="{{tag.id}}">{{tag.tag_name}}<br>
-    {% endfor %}
+    <form action="{% url 'post-new' author.username %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title"/>
+        <input type="text" name="content" placeholder="Post content"/>
 
-    <input type="submit"/>
-</form>
+        {% for tag in tags %}
+            <input type="radio" name="tag" value="{{tag.id}}">{{tag.tag_name}}<br>
+        {% endfor %}
 
+        <input type="submit"/>
+    </form>
 
 {% endblock %}

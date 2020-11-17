@@ -1,10 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views import View
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, DeleteView
 from .models import Post, Tag
-from django.urls import reverse
-from .forms import PostForm
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 
 
@@ -12,13 +11,14 @@ class ListPostsView(View):
 
     def get(self, request, **kwargs):
         username = self.kwargs['username']
+        user_logged = self.request.user.username
         user = get_object_or_404(User, username=username)
         posts = Post.objects.filter(author=user)
-        context = {'posts': posts, 'author': user}
+        context = {'posts': posts, 'author': user, 'user_logged': user_logged}
         return render(request, 'index.html', context)
 
 
-class PostDetailView(DetailView):
+class DetailPostView(DetailView):
     template_name = "post_detail.html"
 
     def get_object(self):
@@ -26,9 +26,20 @@ class PostDetailView(DetailView):
         return get_object_or_404(Post, id=id_)
 
 
-# class CreatePostView(CreateView):
-#     form_class = PostForm
-#     template_name = 'posts/new.html'
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = "confirm_post_delete.html"
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Post, id=id_)
+
+    def delete(self, request, *args, **kwargs):
+        success_url = reverse_lazy('post-list', args=[self.request.user.username])
+        if self.kwargs.get("username") == self.request.user.username:
+            self.object = self.get_object()
+            self.object.delete()
+        return redirect(success_url)
 
 @login_required
 def create_post_view(request, username):
@@ -36,11 +47,16 @@ def create_post_view(request, username):
         author = request.user
         tags = Tag.objects.all()
         if username != author.username:
-            return redirect(reverse('post_new', args=[author.username]))
+            return redirect(reverse('post-new', args=[author.username]))
         return render(request, 'posts/new.html', {'author': author, 'tags': tags})
 
     if request.method == 'POST':
-        print('=========bateu=========')
-        author = get_object_or_404(User, username=username)
-        print(request.POST.get('user'))
-        return redirect(reverse('post_list', args=[author.username]))
+        post_tag = get_object_or_404(Tag, id=request.POST.get('tag'))
+        new_post = Post.objects.create(
+            author=request.user,
+            title=request.POST.get('title'),
+            content=request.POST.get('content'),
+        )
+        new_post.tags.add(post_tag)
+        return redirect(reverse('post-list', args=[request.user.username]))
+
