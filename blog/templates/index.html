@@ -3,7 +3,7 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-    <h1>Blog</h1>
+    <p><h1>{{author.username}}'s posts</h1></p>
     {% for post in posts %}
 
         <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
