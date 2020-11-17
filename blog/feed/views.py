@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views import View
-from django.views.generic import DetailView, DeleteView
+from django.views.generic import DetailView, DeleteView, UpdateView
 from .models import Post, Tag
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -13,9 +13,14 @@ class ListPostsView(View):
         username = self.kwargs['username']
         user_logged = self.request.user.username
         user = get_object_or_404(User, username=username)
-        posts = Post.objects.filter(author=user)
+
+        if user_logged == username:
+            posts = Post.objects.filter(author=user)
+        else:
+            posts = Post.objects.filter(author=user, posted=True)
+
         context = {'posts': posts, 'author': user, 'user_logged': user_logged}
-        return render(request, 'index.html', context)
+        return render(request, 'post/index.html', context)
 
 
 class DetailPostView(DetailView):
@@ -40,6 +45,26 @@ class DeletePostView(DeleteView):
             self.object = self.get_object()
             self.object.delete()
         return redirect(success_url)
+
+
+class UpdatePostView(UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = "post/update.html"
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Post, id=id_)
+
+
+class PublishPostView(UpdateView):
+    model = Post
+    fields = ['posted']
+    template_name = "post/update.html"
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Post, id=id_)
 
 @login_required
 def create_post_view(request, username):

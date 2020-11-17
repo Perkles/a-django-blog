@@ -35,3 +35,7 @@ class Post(BaseModel):
     def get_absolute_url_delete(self):
         from django.urls import reverse
         return reverse('post-delete', kwargs={'username': self.author.username, 'id': self.id})
+
+    def get_absolute_url_publish(self):
+        from django.urls import reverse
+        return reverse('post-publish', kwargs={'username': self.author.username, 'id': self.id})
