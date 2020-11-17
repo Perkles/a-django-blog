@@ -19,7 +19,7 @@ class ListPostsView(View):
 
 
 class DetailPostView(DetailView):
-    template_name = "post_detail.html"
+    template_name = "post/post_detail.html"
 
     def get_object(self):
         id_ = self.kwargs.get("id")
@@ -28,7 +28,7 @@ class DetailPostView(DetailView):
 
 class DeletePostView(DeleteView):
     model = Post
-    template_name = "confirm_post_delete.html"
+    template_name = "post/confirm_post_delete.html"
 
     def get_object(self):
         id_ = self.kwargs.get("id")
@@ -48,7 +48,7 @@ def create_post_view(request, username):
         tags = Tag.objects.all()
         if username != author.username:
             return redirect(reverse('post-new', args=[author.username]))
-        return render(request, 'posts/new.html', {'author': author, 'tags': tags})
+        return render(request, 'post/new.html', {'author': author, 'tags': tags})
 
     if request.method == 'POST':
         post_tag = get_object_or_404(Tag, id=request.POST.get('tag'))
