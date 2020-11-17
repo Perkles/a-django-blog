@@ -5,7 +5,7 @@
 {% block content %}
 
     <small>
-        <a href="{% url 'post_list' %}"><- back</a>
+        <a href="{% url 'post_list' post.author.username %}"><- back</a>
     </small>
 
     <h1>{{post.title}}</h1>
