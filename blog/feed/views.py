@@ -5,6 +5,7 @@ from django.views.generic import DetailView, DeleteView, UpdateView
 from .models import Post, Tag
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 class ListPostsView(View):
@@ -31,40 +32,43 @@ class DetailPostView(DetailView):
         return get_object_or_404(Post, id=id_)
 
 
-class DeletePostView(DeleteView):
+class DeletePostView(UserPassesTestMixin, DeleteView):
     model = Post
     template_name = "post/confirm_post_delete.html"
+
+    def test_func(self):
+        return self.request.user.username == self.kwargs.get("username")
 
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Post, id=id_)
 
-    def delete(self, request, *args, **kwargs):
-        success_url = reverse_lazy('post-list', args=[self.request.user.username])
-        if self.kwargs.get("username") == self.request.user.username:
-            self.object = self.get_object()
-            self.object.delete()
-        return redirect(success_url)
 
-
-class UpdatePostView(UpdateView):
+class UpdatePostView(UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
     template_name = "post/update.html"
 
+    def test_func(self):
+        return self.request.user.username == self.kwargs.get("username")
+
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Post, id=id_)
 
 
-class PublishPostView(UpdateView):
+class PublishPostView(UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['posted']
     template_name = "post/update.html"
 
+    def test_func(self):
+        return self.request.user.username == self.kwargs.get("username")
+
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Post, id=id_)
+
 
 @login_required
 def create_post_view(request, username):
