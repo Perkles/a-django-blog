@@ -16,4 +16,3 @@ This project its part of a [larger repository](https://github.com/Perkles/python
 - Abstract models 
 - Class based views
 - Forms
-
