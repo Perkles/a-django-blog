@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views import View
-from django.views.generic import DetailView, DeleteView, UpdateView
+from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from .models import Post, Tag
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -39,6 +39,9 @@ class DeletePostView(UserPassesTestMixin, DeleteView):
     def test_func(self):
         return self.request.user.username == self.kwargs.get("username")
 
+    def get_success_url(self):
+        return reverse('post-list', args=[self.request.user.username])
+
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Post, id=id_)
@@ -69,6 +72,17 @@ class PublishPostView(UserPassesTestMixin, UpdateView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Post, id=id_)
 
+
+class TagCreateView(UserPassesTestMixin, CreateView):
+    model = Tag
+    fields = ['tag_name']
+    template_name = "tag/new.html"
+
+    def get_success_url(self):
+        return reverse('post-new', args=[self.request.user.username])
+
+    def test_func(self):
+        return self.request.user.username == self.kwargs.get("username")
 
 @login_required
 def create_post_view(request, username):

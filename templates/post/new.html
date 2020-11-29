@@ -9,9 +9,13 @@
         <input type="text" name="title" placeholder="Title"/>
         <input type="text" name="content" placeholder="Post content"/>
 
-        {% for tag in tags %}
-            <input type="radio" name="tag" value="{{tag.id}}">{{tag.tag_name}}<br>
-        {% endfor %}
+        {% if not tags %}
+            <a href="{% url 'tag-new' author.username %}">Create new tag</a>
+        {% else %}
+            {% for tag in tags %}
+                <input type="radio" name="tag" value="{{tag.id}}">{{tag.tag_name}}<br>
+            {% endfor %}
+        {% endif %}
 
         <input type="submit"/>
     </form>
