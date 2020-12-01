@@ -11,5 +11,34 @@
 
         <p>Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Quem num gosta di mim que vai caçá sua turmis! Mé faiz elementum girarzis, nisi eros vermeio.</p>
 
+        {% for post in posts %}
+            
+            <div class="public">
+                <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
+
+                {% for tag in post.tags.all %}
+                    <p>{{tag.tag_name}}</p>
+                {% endfor %}
+                
+                <p>{{post.content|slice:":400" }}...</p>
+
+                <small>
+                    {% if post.content|length >= 400 %}
+                        <a href="{{post.get_absolute_url}}">
+                            Continue lendo
+                        </a>
+                    {% endif %}
+                </small>
+            
+                <small>
+                    <a href="{% url 'post-list' post.author.username %}">
+                        {{post.author.username}}
+                    </a>
+                </small>
+                <small>{{post.posting_date}}</small>
+            </div>
+
+        {% endfor %}
+
     </div>
 {% endblock %}
