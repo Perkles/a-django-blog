@@ -20,18 +20,21 @@
                 <a href="{{post.get_absolute_url_publish}}">Publish</a>
             {% endif %}
 
+            <p>
+                {{post.content|slice:":400" }}...
+                <small>
+                    {% if post.content|length >= 400 %}
+                        <a href="{{post.get_absolute_url}}">
+                            Keep reading
+                        </a>
+                    {% endif %}
+                </small>
+            </p>
+            
             {% for tag in post.tags.all %}
                <p>{{tag.tag_name}}</p>
             {% endfor %}
-            <p>
-                {{post.content|slice:":150" }}...
 
-                <small>
-                    <a href="{{post.get_absolute_url}}">
-                        Continue lendo
-                    </a>
-                </small>
-            </p>
             <small>{{post.author.email}}</small>
             <small>{{post.posting_date}}</small>
         </div>

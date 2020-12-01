@@ -20,16 +20,17 @@
                     <p>{{tag.tag_name}}</p>
                 {% endfor %}
                 
-                <p>{{post.content|slice:":400" }}...</p>
+                <p>
+                    {{post.content|slice:":400" }}...
+                    <small>
+                        {% if post.content|length >= 400 %}
+                            <a href="{{post.get_absolute_url}}">
+                                Keep reading
+                            </a>
+                        {% endif %}
+                    </small>
+                </p>
 
-                <small>
-                    {% if post.content|length >= 400 %}
-                        <a href="{{post.get_absolute_url}}">
-                            Continue lendo
-                        </a>
-                    {% endif %}
-                </small>
-            
                 <small>
                     <a href="{% url 'post-list' post.author.username %}">
                         {{post.author.username}}
