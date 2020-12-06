@@ -11,7 +11,6 @@ urlpatterns = [
     path('<str:username>/post/<int:id>/publish', login_required(PublishPostView.as_view()), name="post-publish"),
     path('<str:username>/post/<int:id>/delete', login_required(DeletePostView.as_view()), name="post-delete"),
     path('<str:username>/tag/new', login_required(TagCreateView.as_view()), name="tag-new"),
-
 ]
 
 
