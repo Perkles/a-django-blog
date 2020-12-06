@@ -1,20 +1,30 @@
 a, p{
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    line-height: 3rem;
 }
 h1, h2, h3, h4, h5{
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
 
-body{
-
-}
-
-
 .private{
     color: #cecece;
 }
 .private a {
     color: #cecece;
+}
+
+nav{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav a{
+    font-size: 2rem;
+    color: green;
+}
+nav a:hover{
+    font-size: 2.1rem;
+    color: purple;
 }

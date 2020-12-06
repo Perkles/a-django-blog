@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView
 from .models import Post, Tag
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 

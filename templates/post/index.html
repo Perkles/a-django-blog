@@ -3,7 +3,10 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-    <p><h1>{{author.username}}'s posts</h1></p> <a href="{% url 'post-new' author.username %}">new</a>
+    <p>
+        <h1>{{author.username}}'s posts</h1>
+    </p>
+    <a href="{% url 'post-new' author.username %}">new</a>
     {% for post in posts %}
         {% if post.posted == True %}
             <div class="public">

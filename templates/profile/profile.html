@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}]
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">{{ user_form.first_name|as_crispy_field }}</div>
+      <div class="col-6">{{ user_form.last_name|as_crispy_field }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        {{ user_form.email|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+      {{ profile_form.bio|as_crispy_field }}
+      </div>
+      <div class="col-6">
+      {{ profile_form.location|as_crispy_field }}
+      </div>
+      <div class="col-6">
+      {{ profile_form.birth_date|as_crispy_field }}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save profile</button>
+
+  </form>
+{% endblock %}
