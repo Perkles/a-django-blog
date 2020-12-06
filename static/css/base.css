@@ -15,16 +15,25 @@ h1, h2, h3, h4, h5{
     color: #cecece;
 }
 
-nav{
+.navbar{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    margin-bottom: 2vw;
 }
-
-nav a{
+.navbar a{
+    color: #cacaca;
+    text-decoration: none;
+}
+.navbar a:hover{
+    color: #ffffff;
+}
+.navbar-item{
+    margin-left: 15px;
+}
+.navbar-manager{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.navbar-manager-login a{
     font-size: 2rem;
-    color: green;
-}
-nav a:hover{
-    font-size: 2.1rem;
-    color: purple;
 }
