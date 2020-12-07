@@ -37,3 +37,37 @@ h1, h2, h3, h4, h5{
 .navbar-manager-login a{
     font-size: 2rem;
 }
+
+.standard-icon{
+    font-size: 2rem;
+}
+
+.user-post-page-title{
+    display: flex;
+    justify-content: space-between;
+}
+.user-post-page-profile{
+    margin-bottom: 50px;
+}
+
+.tag{
+    border-radius: 100px 100px 100px 100px;
+    -moz-border-radius: 100px 100px 100px 100px;
+    -webkit-border-radius: 100px 100px 100px 100px;
+    border: 3px solid #d8d3cd;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    max-width: 200px;
+    padding: 5px;
+    margin: 5px;
+}
+.post{
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.post-inner{
+    width: 90%;
+}

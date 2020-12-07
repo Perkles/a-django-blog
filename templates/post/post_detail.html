@@ -5,7 +5,8 @@
 {% block content %}
 
     <small>
-        <a href="{% url 'post-list' post.author.username %}"><- back</a>
+        <a href="{% url 'post-list' post.author.username %}"><i class="fas fa-arrow-circle-left standard-icon"></i></a>
+        <i class="far fa-edit"></i>
     </small>
 
     <h1>{{post.title}}</h1>
@@ -15,6 +16,6 @@
         {{tag.tag_name}}
     {% endfor %}
 
-    <small>{{post.author.email}}</small>
+    <small>{{post.author.username}}</small>
     <small>{{post.tags.tag_name}}</small>
 {% endblock %}

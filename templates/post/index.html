@@ -3,43 +3,53 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-    <p>
+    <div class="user-post-page-title">
         <h1>{{author.username}}'s posts</h1>
-    </p>
-    <a href="{% url 'post-new' author.username %}">new</a>
+        <a href="{% url 'post-new' author.username %}">
+            <i class="fas fa-plus standard-icon"></i>
+        </a>
+    </div>
+    <div class="user-post-page-profile">
+        <p><strong>Bio: </strong>{{author.profile.bio}}</p>
+        <strong>Location: </strong>{{author.profile.location}} -
+        <strong>Bith Date: </strong>{{author.profile.birth_date}}
+    </div>
+
     {% for post in posts %}
-        {% if post.posted == True %}
-            <div class="public">
-        {% else %}
-            <div class="private">
-        {% endif %}
-            <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
-
-            {% if post.author.username == user_logged %}
-                <a href="{{post.get_absolute_url_delete}}">Delete</a>
+        <div class="post {{additionalClass}}">
+            <div class="controls">
+                {% if post.author.username == user_logged %}
+                    <a href="{{post.get_absolute_url_delete}}"><i class="far fa-trash-alt standard-icon"></i></a>
+                {% endif %}
+                {% if post.author.username == user_logged %}
+                    <a href="{{post.get_absolute_url_publish}}"><i class="far fa-newspaper standard-icon"></i></a>
+                {% endif %}
+            </div>
+            {% if post.posted == True %}
+                <div class="public post-inner">
+            {% else %}
+                <div class="private post-inner">
             {% endif %}
+                <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
 
-            {% if post.author.username == user_logged %}
-                <a href="{{post.get_absolute_url_publish}}">Publish</a>
-            {% endif %}
+                {% for tag in post.tags.all %}
+                   <spam class="tag">{{tag.tag_name}}</spam>
+                {% endfor %}
 
-            <p>
-                {{post.content|slice:":400" }}...
-                <small>
-                    {% if post.content|length >= 400 %}
-                        <a href="{{post.get_absolute_url}}">
-                            Keep reading
-                        </a>
-                    {% endif %}
-                </small>
-            </p>
-            
-            {% for tag in post.tags.all %}
-               <p>{{tag.tag_name}}</p>
-            {% endfor %}
+                <p>
+                    {{post.content|slice:":400" }}...
+                    <small>
+                        {% if post.content|length >= 400 %}
+                            <a href="{{post.get_absolute_url}}">
+                                Keep reading
+                            </a>
+                        {% endif %}
+                    </small>
+                </p>
 
-            <small>{{post.author.email}}</small>
-            <small>{{post.posting_date}}</small>
+                <small>{{post.author.username}}</small>
+                <small>{{post.posting_date}}</small>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}
