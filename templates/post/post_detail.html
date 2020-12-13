@@ -6,7 +6,10 @@
 
     <small>
         <a href="{% url 'post-list' post.author.username %}"><i class="fas fa-arrow-circle-left standard-icon"></i></a>
-        <i class="far fa-edit"></i>
+
+        {% if post.author.username == user_logged %}
+            <i class="far fa-edit"></i>
+        {% endif %}
     </small>
 
     <h1>{{post.title}}</h1>
